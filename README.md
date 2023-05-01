@@ -14,8 +14,6 @@ same parent DNS domain.
      127.0.0.1 auth.foo.org
      127.0.0.1 test-app.foo.org
      ```
-   * (Optional; otherwise update app deployment image tag) Your application
-     image published in the local registry e.g.: `localhost:5001/hello-httpd:latest`
 1. Create Kubernetes cluster: `./create-kind-cluster.sh
 2. Deploy [ingress-nginx](https://github.com/kubernetes/ingress-nginx): `kubectl apply -f ingress-nginx.yaml`
 3. Deploy [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/): `kubectl apply -f auth.yaml`
