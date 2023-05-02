@@ -20,7 +20,7 @@ spec:
         - --email-domain=*
         - --upstream=file:///dev/null
         - --http-address=0.0.0.0:4180
-        - --oidc-issuer-url=<ISSUER_URL>
+        - --oidc-issuer-url=https://dev-mm0qwyuf.us.auth0.com/
         - --cookie-domain=.foo.org
         - --whitelist-domain=*.foo.org
         - --set-xauthrequest=true
@@ -28,11 +28,11 @@ spec:
         - --pass-authorization-header=true
         env:
         - name: OAUTH2_PROXY_CLIENT_ID
-          value: <CLIENT_ID>
+          value: zC2nBMcOVDDh9K4VkwuSUgh8MyteFXze
         - name: OAUTH2_PROXY_CLIENT_SECRET
-          value: <CLIENT_SECRET>
+          value: NJRxnxDUKp3N21q0rZY9AjSex3vD5gdbOwcbBCYYIa5oHjlx118FfoXhQR18zMSt
         - name: OAUTH2_PROXY_COOKIE_SECRET
-          value: <COOKIE_SECRET>
+          value: jXZwtEmuB97xVMBSvoGP8gtNw4jl9tDaBd5WcxGm0KE=
         image: quay.io/oauth2-proxy/oauth2-proxy:latest
         imagePullPolicy: Always
         name: oauth2-proxy
