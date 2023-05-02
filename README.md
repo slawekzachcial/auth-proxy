@@ -8,17 +8,16 @@ having the same parent DNS domain.
 
 0. Prerequisites:
    * Working Docker installation
-   * [Kind](https://kind.sigs.k8s.io/) installed
+   * [Kind](https://kind.sigs.k8s.io/) installed, or a working Kubernetes cluster
    * `/etc/hosts` updated with the following entries:
      ```
      127.0.0.1 auth.foo.org
      127.0.0.1 test-app.foo.org
      ```
-   * `auth.yaml` updated with your OpenID Connect issuer URL, client ID, client
-     secret and a secret to encrypt the cookie
-1. Create Kubernetes cluster: `./create-kind-cluster.sh
+1. Copy `auth/env.sample` to `auth/.env` and update it accordingly
+2. Create Kubernetes cluster: `./create-kind-cluster.sh` unless you already have a working cluster
 2. Deploy [ingress-nginx](https://github.com/kubernetes/ingress-nginx): `kubectl apply -f ingress-nginx.yaml`
-3. Deploy [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/): `kubectl apply -f auth.yaml`
+3. Deploy [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/): `kubectl apply -k auth`
 4. Deploy application: `kubectl apply -f app.yaml`
 
 # Testing
