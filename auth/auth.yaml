@@ -23,8 +23,8 @@ spec:
         - --auth-logging=true
         - --request-logging=true
         - --standard-logging=true
-        - --cookie-domain=.foo.org
-        - --whitelist-domain=*.foo.org
+        - --cookie-domain=.7f000001.nip.io
+        - --whitelist-domain=*.7f000001.nip.io
         - --set-xauthrequest=true
         - --pass-access-token=true
         - --pass-authorization-header=true
@@ -75,7 +75,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: auth.foo.org
+  - host: auth.7f000001.nip.io
     http:
       paths:
       - backend:
