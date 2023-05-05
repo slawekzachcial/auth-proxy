@@ -2,35 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: test-app
-  name: test-app
+    app: app1
+  name: app1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: test-app
+      app: app1
   template:
     metadata:
       labels:
-        app: test-app
+        app: app1
     spec:
       containers:
       - image: gcr.io/kubernetes-e2e-test-images/echoserver:2.2
-        name: test-app
+        name: app
         ports:
         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-app
+  name: app1
 spec:
   ports:
     - port: 80
       protocol: TCP
       targetPort: 8080
   selector:
-    app: test-app
+    app: app1
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -42,20 +42,22 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       auth_request_set $user   $upstream_http_x_auth_request_user;
       auth_request_set $email  $upstream_http_x_auth_request_email;
-      proxy_set_header X-User  $user;
-      proxy_set_header X-Email $email;
       auth_request_set $token  $upstream_http_x_auth_request_access_token;
+      proxy_set_header X-User         $user;
+      proxy_set_header X-Email        $email;
       proxy_set_header X-Access-Token $token;
-  name: test-app
+  name: app1
 spec:
+  ingressClassName: nginx
   rules:
-  - host: test-app.7f000001.nip.io
+  - host: app1.7f000001.nip.io
     http:
       paths:
       - backend:
           service:
-            name: test-app
+            name: app1
             port:
               number: 80
         path: /
         pathType: Prefix
+---

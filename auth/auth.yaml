@@ -24,7 +24,8 @@ spec:
         - --request-logging=true
         - --standard-logging=true
         - --cookie-domain=.7f000001.nip.io
-        - --whitelist-domain=*.7f000001.nip.io
+        - --whitelist-domain=app1.7f000001.nip.io
+        - --whitelist-domain=app2.7f000001.nip.io
         - --set-xauthrequest=true
         - --pass-access-token=true
         - --pass-authorization-header=true
