@@ -55,19 +55,27 @@ needs the following annotations, as specified in [app1.yaml](app1.yaml):
 Using your browser you should also be able to access https://app2.7f000001.nip.io
 (accept the same certificate warnings).
 
-Trying to access https://app3.7f000001.nip.io in the same browser session that
-was used to access "app1" or "app2" will be allowed as all 3 applications share
-the same domain and the cookie was set for that common domain - `.7f000001.nip.io`.
-However, opening a new browser session and trying to access directly "app3" will
-not be allowed because this application domain is not specified in
-`oauth2-proxy` whitelisted domains list.
+`oauth2-proxy` is setup so that access to its auth request endpoint `/oauth2/auth`
+can only be done from within the cluster. Assuming we trust what runs in our cluster
+this will prevent the external applications from using our proxy with their Nginx
+auth request.
 
-> TODO:
->
-> Is there a way to prevent "app3" from highjacking the session cookie created
-> during "app1" or "app2" authentication?
-> Is there a way for "auth-url" request (/oauth2/auth) to verify the domain the
-> request is coming from?
+To show how this works, let's simulate access by external application. We first
+need to execute `kubectl edit ing app3` and replace
+
+```yaml
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.default.svc.cluster.local:4180/oauth2/auth"
+```
+
+with
+
+```yaml
+    nginx.ingress.kubernetes.io/auth-url: https://auth.7f000001.nip.io/oauth2/auth
+```
+
+Now access with your browser https://app3.7f000001.nip.io. You'll see HTTP 500
+error. That's because the auth request could not be completed as it is initiated
+from outside of the cluster - comes through an ingress that rejects it.
 
 # Cleanup
 

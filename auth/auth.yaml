@@ -72,6 +72,13 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    # Do not allow access to /oauth2/auth from outside of the cluster.
+    # All access to /oauth2/auth can be done only through the service, i.e. auth.default.svc.cluster.local
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_uri ~ "^/oauth2/auth") {
+        return 400;
+      }
   name: oauth2-proxy
 spec:
   ingressClassName: nginx
